@@ -1,0 +1,54 @@
+<%= form_for(bill) do |f| %>
+  <% if bill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bill.errors.count, "error") %> prohibited this bill from being saved:</h2>
+
+      <ul>
+      <% bill.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :event %>
+    <%= f.select("event", options_for_select(Bill::EVENTS, (params[:bill].present? ? params[:bill][:event] : Bill::EVENTS.first[0].to_s))) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :entry_date %>
+    <%= f.datetime_select :entry_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :location %>
+    <%= f.text_field :location %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.number_field :amount %>
+  </div>
+
+  <div class="field">
+    <label>Event Attendes</label>
+    <% @users.each do |user| %>
+      <%= f.check_box("event_attendes", {multiple: true, checked: (params[:bill].present? && params[:bill][:event_attendes].present? && params[:bill][:event_attendes].include?(user.id.to_s))}, user.id, nil) %> <%= user.name %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <label>Bill Contributors</label>
+    <% @users.each_with_index do |user, index| %>
+      <%= f.check_box( "bill_contributors", {multiple: true, checked: (params[:bill].present? && params[:bill][:bill_contributors].present? && params[:bill][:bill_contributors].include?(user.id.to_s)), class: "bill_contributors"}, user.id, nil) %> <%= user.name %>
+      <br/>
+      Amount: <%= f.text_field("contributions", {id: "contributions_#{user.id}", multiple: true, value: (params[:bill].present? ? params[:bill][:contributions][index] : "")}) %> $
+      <br/><br/>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bills</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Entry date</th>
+      <th>Location</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bills.each do |bill| %>
+      <tr>
+        <td><%= bill.event %></td>
+        <td><%= bill.entry_date %></td>
+        <td><%= bill.location %></td>
+        <td><%= bill.amount %></td>
+        <td><%= link_to 'Show', bill %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bill', new_bill_path %> || <%= link_to "Reports", report_index_path %>

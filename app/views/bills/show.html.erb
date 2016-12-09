@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Event:</strong>
+  <%= @bill.event %>
+</p>
+
+<p>
+  <strong>Entry date:</strong>
+  <%= @bill.entry_date %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @bill.location %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @bill.amount %>
+</p>
+
+
+<p>
+  <strong>Attendies:</strong>
+  <br/>
+  <% @attendies.each do |attendy| %>
+    -> <%= attendy.name %> <br/>
+  <% end %>
+</p>
+
+<p>
+  <strong>Bill Payments:</strong>
+  <table border="1" style="margin-left: 32px;">
+    <thead>
+      <th>Contributor</th>
+      <th>Amount</th>
+    </thead>
+    <tbody>
+      <% @bill_payments.each do |bill_payment| %>
+        <tr>
+          <td><%= bill_payment.user.name %></td>
+          <td><%= bill_payment.amount %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</p>
+<%= link_to 'Back', bills_path %>

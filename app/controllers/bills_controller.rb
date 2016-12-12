@@ -37,6 +37,10 @@ class BillsController < ApplicationController
               bp = BillPayment.new({bill_id: @bill.id, user_id: contributor_id, amount: bill_params[:contributions][index]})
               bp.save
             end
+            (bill_params[:event_attendes] - bill_params[:bill_contributors]).each do |non_contributor|
+              bp = BillPayment.new({bill_id: @bill.id, user_id: non_contributor, amount: 0})
+              bp.save
+            end
             format.html { redirect_to @bill, notice: 'Bill was successfully created.' }
             format.json { render :show, status: :created, location: @bill }
           else

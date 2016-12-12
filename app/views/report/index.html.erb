@@ -53,4 +53,25 @@
 
 
 <label>Payment Settlements:</label> <br/>
-<%= settlement_info(@bill_payments).inspect %>
+<table border="1">
+  <thead>
+    <th>Name</th>
+    <th>Paid</th>
+    <th>Bill amount</th>
+    <th>Settlement Amount</th>
+  </thead>
+  <tbody>
+    <% settlement_info(@bill_payments).each do |key, settlement| %>
+      <tr>
+        <td><%= settlement["user_name"] %></td>
+        <td><%= settlement["paid_amount"] %></td>
+        <td><%= settlement["bill_amount"] %></td>
+        <td><%= settlement["settle_amount"] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<br/><br/>
+<%= link_to 'Back', bills_path %>

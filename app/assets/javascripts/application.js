@@ -14,11 +14,3 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-$(document).on("change", ".bill_contributors", function(){
-  if ($(this).is(":checked")) {
-    $("#contributions_" + $(this).val()).removeAttr("disabled");
-  }else{
-    $("#contributions_" + $(this).val()).attr("disabled", "disabled");
-  }
-});

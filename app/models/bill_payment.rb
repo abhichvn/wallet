@@ -15,6 +15,13 @@ class BillPayment < ApplicationRecord
                     LEFT JOIN user_bills
                     ON user_bills.bill_id = bill_payments.bill_id
                     LEFT JOIN users
-                    ON users.id = bill_payments.user_id").group("bill_payments.id").order("bill_payments.user_id")
+                    ON users.id = bill_payments.user_id
+                  ").group("bill_payments.id,
+                            users.name,
+                            bills.event,
+                            bills.amount,
+                            bill_payments.amount,
+                            bills.id
+                          ").order("bill_payments.user_id")
   end
 end

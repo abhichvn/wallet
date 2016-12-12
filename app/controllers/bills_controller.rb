@@ -29,15 +29,15 @@ class BillsController < ApplicationController
       begin
         ActiveRecord::Base.transaction do
           if @bill.save
-            bill_params[:event_attendes].each do |user_id|
+            @bill.event_attendes.each do |user_id|
               ub = UserBill.new({bill_id: @bill.id, user_id: user_id})
               ub.save
             end
-            bill_params[:bill_contributors].each_with_index do |contributor_id, index|
-              bp = BillPayment.new({bill_id: @bill.id, user_id: contributor_id, amount: bill_params[:contributions][index]})
+            @bill.bill_contributors.each_with_index do |contributor_id, index|
+              bp = BillPayment.new({bill_id: @bill.id, user_id: contributor_id, amount: @bill.contributions[index]})
               bp.save
             end
-            (bill_params[:event_attendes] - bill_params[:bill_contributors]).each do |non_contributor|
+            (@bill.event_attendes - @bill.bill_contributors).each do |non_contributor|
               bp = BillPayment.new({bill_id: @bill.id, user_id: non_contributor, amount: 0})
               bp.save
             end

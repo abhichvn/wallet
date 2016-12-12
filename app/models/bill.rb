@@ -29,6 +29,10 @@ class Bill < ApplicationRecord
 
   EVENTS = [["Lunch", "lunch"], ["Dinner", "dinner"], ["Snacks", "snacks"]]
 
+  def contributions=(value)
+    @contributions = value.delete_if {|number| number.to_i.eql?(0)}
+  end
+
   private
 
   def cross_verify_contributors
@@ -36,8 +40,8 @@ class Bill < ApplicationRecord
   end
 
   def verify_contributions
-    errors.add(:contributions, "Bill contributors and no of amount mismatch or invalid") if contributions.delete_if {|number| number.to_i.eql?(0)}.length != bill_contributors.length
-    errors.add(:contributions, "Contributions and total amount is mismatch") if contributions.delete_if {|number| number.to_i.eql?(0)}.map(&:to_i).reduce(0, :+) != amount.to_i
+    errors.add(:contributions, "Bill contributors and no of amount mismatch or invalid") if contributions.length != bill_contributors.length
+    errors.add(:contributions, "Contributions and total amount is mismatch") if contributions.map(&:to_i).reduce(0, :+) != amount.to_i
   end
 
 end
